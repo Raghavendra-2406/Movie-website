@@ -37,21 +37,6 @@ This project is responsive, elegant, and delivers a deeply emotional storytellin
 
 ---
 
-## 📂 File Structure
-movie-website/
-├── index.html
-├── parvasam.jpg # Poster image
-├── video/
-│ └── Ending.mp4 # Background video
-├── Audio/
-│ ├── Title.mp4 / .wav
-│ ├── Separation theme.mp3 / .wav
-│ └── Climax theme.mp3 / .wav
-├── README.md
-
-
----
-
 ## 🧪 How to Run Locally
 
 1. **Clone the repository:**
