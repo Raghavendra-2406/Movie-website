@@ -67,18 +67,4 @@ This project is responsive, elegant, and delivers a deeply emotional storytellin
 This project is intended for **personal, academic, and film portfolio** purposes only.  
 Redistribution or commercial use of included assets is **strictly prohibited** unless granted explicit permission by content owners.
 
----
-
-## 🤝 Contribution
-
-Pull requests are welcome for:
-
-- UI/UX improvements  
-- Accessibility fixes  
-- Bug patches  
-
-To contribute:
-
-```bash
-fork → edit → submit pull request
 
