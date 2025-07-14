@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARVASAM - A Romantic Drama</title>
+    
+    <style>
+        /* Global Styles and Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #2E86AB;
+            --secondary-blue: #A23B72;
+            --accent-blue: #F18F01;
+            --text-light: #E8F4FD;
+            --text-white: #FFFFFF;
+            --bg-dark: #0F1419;
+            --bg-darker: #0A0E13;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --border-subtle: rgba(46, 134, 171, 0.4);
+            --ocean-blue: #1B4D72;
+            --beach-sand: #F4E4BC;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Video */
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            opacity: 0.3;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15, 20, 25, 0.8) 0%, rgba(46, 134, 171, 0.2) 50%, rgba(15, 20, 25, 0.9) 100%);
+            z-index: -1;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(to bottom, rgba(15, 20, 25, 0.9), rgba(46, 134, 171, 0.1));
+            border-bottom: 2px solid var(--border-subtle);
+            position: relative;
+        }
+
+        .movie-title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+            animation: fadeInUp 1s ease-out;
+            background: linear-gradient(135deg, var(--primary-blue), var(--text-white));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .movie-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        .meta-item {
+            border-right: 1px solid var(--border-subtle);
+            padding-right: 20px;
+            background: rgba(46, 134, 171, 0.1);
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .meta-item:last-child {
+            border-right: 1px solid var(--border-subtle);
+        }
+
+        /* Poster Section - Updated for side-by-side layout */
+        .poster-section {
+            padding: 80px 0;
+            background: radial-gradient(circle at center, rgba(46, 134, 171, 0.15) 0%, transparent 70%);
+            position: relative;
+        }
+
+        .poster-synopsis-container {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .poster-wrapper {
+            flex: 0 0 45%;
+            max-width: 500px;
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 50px rgba(46, 134, 171, 0.3);
+            transition: transform 0.3s ease;
+            border: 3px solid var(--primary-blue);
+        }
+
+        .movie-poster:hover {
+            transform: scale(1.02) rotateY(5deg);
+        }
+
+        /* Synopsis - Updated for side-by-side layout */
+        .synopsis {
+            flex: 1;
+            padding: 40px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-subtle);
+            border-radius: 15px;
+            text-align: justify;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .synopsis h3 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        /* Crew Section */
+        .crew-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(46, 134, 171, 0.08) 0%, transparent 50%);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+            border-radius: 2px;
+        }
+
+        .crew-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .crew-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-subtle);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .crew-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(46, 134, 171, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .crew-card:hover::before {
+            left: 100%;
+        }
+
+        .crew-card:hover {
+            background: rgba(46, 134, 171, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(46, 134, 171, 0.2);
+            border-color: var(--primary-blue);
+        }
+
+        .role {
+            color: var(--primary-blue);
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .name {
+            font-size: 1.3rem;
+            color: var(--text-white);
+        }
+
+        /* Cast Section */
+        .cast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        /* Media Section */
+        .media-section {
+            padding: 80px 0;
+            background: var(--bg-darker);
+        }
+
+        /* Music Player */
+        .music-player {
+            background: var(--card-bg);
+            border: 2px solid var(--border-subtle);
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .track-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .track-item {
+            padding: 20px;
+            margin-bottom: 15px;
+            background: rgba(46, 134, 171, 0.1);
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .track-item:hover {
+            background: rgba(46, 134, 171, 0.2);
+            transform: translateX(5px);
+        }
+
+        .track-item.playing {
+            background: rgba(46, 134, 171, 0.3);
+            border: 2px solid var(--primary-blue);
+            box-shadow: 0 5px 15px rgba(46, 134, 171, 0.3);
+        }
+
+        /* Download Section */
+        .download-section {
+            background: var(--card-bg);
+            border: 2px solid var(--border-subtle);
+            padding: 50px;
+            border-radius: 15px;
+            margin-top: 50px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .password-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 20px;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--border-subtle);
+            border-radius: 10px;
+            color: var(--text-white);
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 15px rgba(46, 134, 171, 0.3);
+        }
+
+        .password-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .unlock-btn {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--text-white);
+            border: none;
+            padding: 18px 40px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(46, 134, 171, 0.3);
+        }
+
+        .unlock-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(46, 134, 171, 0.5);
+        }
+
+        .download-content {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .download-content.unlocked {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+            color: var(--text-white);
+            border: none;
+            padding: 25px 50px;
+            border-radius: 35px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 15px;
+            box-shadow: 0 8px 20px rgba(46, 134, 171, 0.4);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(46, 134, 171, 0.6);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Play/Stop button for tracks */
+        .play-btn {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--text-white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 90px;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(46, 134, 171, 0.3);
+        }
+
+        .play-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Hide audio controls for custom player */
+        .hidden-audio {
+            display: none;
+        }
+
+        /* Error message styles */
+        .error-message {
+            color: #ff6b6b;
+            font-size: 1rem;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .success-message {
+            color: #4ecdc4;
+            font-size: 1rem;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .poster-synopsis-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .poster-wrapper {
+                flex: none;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .synopsis {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .movie-title {
+                font-size: 2.8rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .crew-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .meta-item {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <video class="background-video" autoplay muted loop>
+        <source src="video/Ending.mp4" type="video/mp4">
+        <!-- Fallback for unsupported video format -->
+        Your browser does not support the video tag.
+    </video>
+    <div class="video-overlay"></div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <h1 class="movie-title">PARVASAM</h1>
+            <div class="movie-meta">
+                <span class="meta-item">🇮🇳 India</span>
+                <span class="meta-item">Language: Telugu</span>
+                <span class="meta-item">⏱️ 49min 56sec</span>
+                <span class="meta-item">💕 Romantic Drama</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Poster Section -->
+    <section class="poster-section">
+        <div class="container">
+            <div class="poster-synopsis-container">
+                <!-- Poster on the left -->
+                <div class="poster-wrapper">
+                    <img src="parvasam.jpg" 
+                         alt="PARVASAM Movie Poster" 
+                         class="movie-poster">
+                </div>
+                
+                <!-- Synopsis on the right -->
+                <div class="synopsis">
+                    <h3>Synopsis</h3>
+                    <p>
+                        Parvasam is a deeply intimate romantic drama that follows the tender yet turbulent emotional journey of a married couple, Anand and Priya. Once deeply in love, their relationship begins to slowly unravel not because of a lack of affection, but because of the quiet, creeping distance that grows between them over time. <br>
+                        <br>
+                        Told through a delicate interplay of past and present, the story reveals how small misunderstandings, unspoken emotions, and unhealed wounds can silently chip away at a once strong bond. As ego and emotional neglect take root, what was once a nurturing partnership becomes strained, leaving both Anand and Priya silently yearning for the connection they’ve lost.<br>
+                        <br>
+                        Parvasam is not just a love story it’s a meditation on how two people can drift apart even while living under the same roof. With poignancy and restraint, the filmexplores the fragility of love, the weight of things left unsaid, and the heartbreak of realizing what was truly important only when it’s almost too late. The narrative builds gently toward a powerful and heart-wrenching revelation—one that forces both characters to confront the truths they’ve long avoided, and reshapes everything they thought they knew about each other.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Crew Section -->
+    <section class="crew-section">
+        <div class="container">
+            <h2 class="section-title">Crew</h2>
+            
+            <div class="crew-grid">
+                <div class="crew-card">
+                    <div class="role">Director</div>
+                    <div class="name">Vamsi Indukuri</div>
+                </div>
+                
+                <div class="crew-card">
+                    <div class="role">Producer</div>
+                    <div class="name">Vamsi Indukuri <br>
+                         Avinash Miriyam</div>
+                </div>
+                
+                <div class="crew-card">
+                    <div class="role">Writer</div>
+                    <div class="name">Vamsi Indukuri</div>
+                </div>
+                
+                <div class="crew-card">
+                    <div class="role">Cinematographer</div>
+                    <div class="name">Pragna Vardhan Reddy</div>
+                </div>
+                
+                <div class="crew-card">
+                    <div class="role">Editor</div>
+                    <div class="name">Kishan VS</div>
+                </div>
+                
+                <div class="crew-card">
+                    <div class="role">Music Director</div>
+                    <div class="name">Rishi M</div>
+                </div>
+                
+                <div class="crew-card">
+                    <div class="role">Production Company</div>
+                    <div class="name">Watermark Creations</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Cast</h2>
+            
+            <div class="cast-grid">
+                <div class="crew-card">
+                    <div class="role">Lead Actor</div>
+                    <div class="name">Prabhu Raj V</div>
+                </div>
+                
+                <div class="crew-card">
+                    <div class="role">Lead Actress</div>
+                    <div class="name">Sai Sreeja</div>
+                </div>
+                
+                <div class="crew-card">
+                    <div class="role">Supporting Actor</div>
+                    <div class="name">Yogith Allu <br>
+                        Sathvik Varma
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Media Section -->
+    <section class="media-section">
+        <div class="container">
+            <h2 class="section-title">🎵 Soundtrack</h2>
+            
+            <div class="music-player">
+                <ul class="track-list">
+                    <li class="track-item" data-track="track1">
+                        <span>🎵 Title Theme</span>
+                        <button class="play-btn" onclick="toggleTrack('track1', this)">Play</button>
+                    </li>
+                    <li class="track-item" data-track="track2">
+                        <span>🎵 Separation Theme</span>
+                        <button class="play-btn" onclick="toggleTrack('track2', this)">Play</button>
+                    </li>
+                    <li class="track-item" data-track="track3">
+                        <span>🎵 Climax Theme</span>
+                        <button class="play-btn" onclick="toggleTrack('track3', this)">Play</button>
+                    </li>
+                </ul>
+                
+                <!-- Hidden audio elements for each track -->
+                <audio id="track1-audio" class="hidden-audio" preload="none">
+                    <source src="Audio/Title.mp4" type="audio/mpeg">
+                    <source src="Audio/Title.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                
+                <audio id="track2-audio" class="hidden-audio" preload="none">
+                    <source src="Audio/Separation theme.wav" type="audio/wav">
+                    <source src="Audio/Separation theme.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                
+                <audio id="track3-audio" class="hidden-audio" preload="none">
+                    <source src="Audio/Climax theme.wav" type="audio/wav">
+                    <source src="Audio/Climax theme.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                
+                <div class="error-message" id="audio-error" style="display: none;">
+                    Audio files not found. Please ensure audio files are in the correct directory.
+                </div>
+            </div>
+
+<!-- Download Section -->
+<div class="download-section">
+    <h2 class="section-title" style="font-size: 2.5rem; margin-bottom: 40px;">📥 Download Movie</h2>
+    
+    <div class="password-container">
+        <p style="margin-bottom: 30px; color: var(--text-light); font-size: 1.1rem;">
+            🔒 Enter password to download PARVASAM in 4K
+        </p>
+        
+        <input type="password" 
+               id="download-password" 
+               class="password-input" 
+               placeholder="Enter password"
+               maxlength="50">
+        
+        <button class="unlock-btn" onclick="unlockDownload()">🔓 Unlock & Download</button>
+        
+        <div class="error-message" id="password-error" style="display: none;"></div>
+        
+        <div class="download-content" id="download-content">
+            <!-- Success message will appear here -->
+        </div>
+    </div>
+</div>
+
+    <script>
+        let currentlyPlaying = null;
+        let currentButton = null;
+
+        function toggleTrack(trackId, button) {
+            const audio = document.getElementById(trackId + '-audio');
+            const trackItem = document.querySelector(`[data-track="${trackId}"]`);
+            
+            // If this track is currently playing, stop it
+            if (currentlyPlaying === audio && !audio.paused) {
+                audio.pause();
+                audio.currentTime = 0;
+                button.textContent = 'Play';
+                trackItem.classList.remove('playing');
+                currentlyPlaying = null;
+                currentButton = null;
+                return;
+            }
+            
+            // Stop any currently playing track
+            if (currentlyPlaying && !currentlyPlaying.paused) {
+                currentlyPlaying.pause();
+                currentlyPlaying.currentTime = 0;
+                if (currentButton) {
+                    currentButton.textContent = 'Play';
+                }
+                document.querySelectorAll('.track-item').forEach(item => {
+                    item.classList.remove('playing');
+                });
+            }
+            
+            // Try to play the new track
+            audio.play().then(() => {
+                button.textContent = 'Stop';
+                trackItem.classList.add('playing');
+                currentlyPlaying = audio;
+                currentButton = button;
+                
+                // Hide error message if it was showing
+                document.getElementById('audio-error').style.display = 'none';
+            }).catch(error => {
+                console.error('Error playing audio:', error);
+                document.getElementById('audio-error').style.display = 'block';
+                button.textContent = 'Play';
+                trackItem.classList.remove('playing');
+            });
+        }
+        
+        // Handle audio ended event for all tracks
+        document.querySelectorAll('audio').forEach(audio => {
+            audio.addEventListener('ended', () => {
+                if (currentButton) {
+                    currentButton.textContent = 'Play';
+                }
+                document.querySelectorAll('.track-item').forEach(item => {
+                    item.classList.remove('playing');
+                });
+                currentlyPlaying = null;
+                currentButton = null;
+            });
+        });
+
+        function unlockDownload() {
+    const password = document.getElementById('download-password').value;
+    const errorDiv = document.getElementById('password-error');
+    const downloadContent = document.getElementById('download-content');
+    
+    const correctPassword = 'Parvasam@2025';
+    
+    if (password === correctPassword) {
+        // Show success message
+        errorDiv.style.display = 'none';
+        downloadContent.innerHTML = '<h3 style="color: #4ecdc4;">✅ Access Granted - Downloading...</h3>';
+        downloadContent.classList.add('unlocked');
+        
+        // Automatically start download
+        const downloadLink = '';
+        window.open(downloadLink, '_blank');
+        
+    } else {
+        // Show error message
+        errorDiv.textContent = '❌ Access Blocked - Incorrect password';
+        errorDiv.style.display = 'block';
+        downloadContent.classList.remove('unlocked');
+        downloadContent.innerHTML = '';
+    }
+}
+
+
+        // Handle Enter key press in password input
+        document.getElementById('download-password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                unlockDownload();
+            }
+        });
+    </script>
+</body>
+</html>
